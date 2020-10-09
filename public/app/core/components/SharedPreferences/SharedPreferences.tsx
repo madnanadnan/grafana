@@ -14,7 +14,7 @@ import {
   FieldSet,
   TimeZonePicker,
 } from '@grafana/ui';
-import { SelectableValue } from '@grafana/data';
+//import { SelectableValue } from '@grafana/data';
 import { selectors } from '@grafana/e2e-selectors';
 
 import { DashboardSearchHit, DashboardSearchItemType } from 'app/features/search/types';
@@ -31,11 +31,13 @@ export interface State {
   dashboards: DashboardSearchHit[];
 }
 
-const themes: SelectableValue[] = [
-  { value: '', label: 'Default' },
-  { value: 'dark', label: 'Dark' },
-  { value: 'light', label: 'Light' },
-];
+//const themes: SelectableValue[] = [
+//{ value: '', label: 'Default' },
+//{ value: 'dark', label: 'Dark' },
+//{ value: 'light', label: 'Light' },
+//];
+
+const optionThemes = [{ value: 'light', label: 'Intrepid' }];
 
 export class SharedPreferences extends PureComponent<Props, State> {
   backendSrv = backendSrv;
@@ -130,8 +132,8 @@ export class SharedPreferences extends PureComponent<Props, State> {
             <FieldSet label="Preferences">
               <Field label="UI Theme">
                 <RadioButtonGroup
-                  options={themes}
-                  value={themes.find(item => item.value === theme)?.value}
+                  options={optionThemes}
+                  value={optionThemes.find(item => item.value === theme)?.value}
                   onChange={this.onThemeChanged}
                 />
               </Field>

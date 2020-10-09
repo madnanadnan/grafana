@@ -8,7 +8,7 @@ export interface BrandComponentProps {
 }
 
 const LoginLogo: FC<BrandComponentProps> = ({ className }) => {
-  return <img className={className} src="public/img/ics_mini_logo" alt="Grafana" />;
+  return <img className={className} src="public/img/ics_large_logo.png" alt="Grafana" />;
 };
 
 const LoginBackground: FC<BrandComponentProps> = ({ className, children }) => {
@@ -28,7 +28,7 @@ const LoginBackground: FC<BrandComponentProps> = ({ className, children }) => {
 };
 
 const MenuLogo: FC<BrandComponentProps> = ({ className }) => {
-  return <img className={className} src="public/img/ics_mini_logo" alt="Grafana" />;
+  return <img className={className} src="public/img/ics_mini_logo.jpg" alt="Grafana" />;
 };
 
 const LoginBoxBackground = () => {
@@ -47,7 +47,7 @@ export class Branding {
   static AppTitle = 'Metrics Manager';
   static LoginTitle = 'Welcome to Metrics Manager';
   static GetLoginSubTitle = () => {
-    const slogans = ['The Intrepid Way', 'Your single pane of glass', 'Built better together', 'Democratising data'];
+    const slogans = ['The Intrepid Way', 'Better Together', 'Simplifying Data'];
     const count = slogans.length;
     return slogans[Math.floor(Math.random() * count)];
   };
