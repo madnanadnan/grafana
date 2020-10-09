@@ -95,8 +95,8 @@ $text-blue: #33a2e5;
 $text-shadow-faint: none;
 
 // gradients
-$brand-gradient-horizontal: linear-gradient(to right, #f05a28 30%, #fbca0a 99%);
-$brand-gradient-vertical: linear-gradient(#f05a28 30%, #fbca0a 99%);
+$brand-gradient-horizontal: linear-gradient(to right, #0f41d4 30%, #ffffff 99%);
+$brand-gradient-vertical: linear-gradient(#ffffff 30%, #0f41d4 99%);
 
 // Links
 // -------------------------
@@ -241,10 +241,10 @@ $navbar-button-border: $gray-4;
 
 // Sidemenu
 // -------------------------
-$side-menu-bg: #202226;
-$side-menu-border: 1px solid #2c3235;
+$side-menu-bg: #1c3281;
+$side-menu-border: 1px solid #ffffff;
 $side-menu-bg-mobile: rgba(0, 0, 0, 0); //$gray-6;
-$side-menu-item-hover-bg: #2c3235;
+$side-menu-item-hover-bg: #2843b5;
 $side-menu-shadow: 5px 0px 10px -5px $gray-1;
 $side-menu-link-color: $gray-4;
 $side-menu-icon-color: #9fa7b3;
