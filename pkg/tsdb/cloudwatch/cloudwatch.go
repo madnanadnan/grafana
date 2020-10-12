@@ -192,7 +192,6 @@ func (e *cloudWatchExecutor) fetchConcurrentQueriesQuota(region string) (int, er
 		ServiceCode: aws.String("logs"),
 		QuotaCode:   aws.String("L-32C48FBB"),
 	})
-
 	if err != nil {
 		return defaultConcurrentQueries, err
 	}
@@ -205,7 +204,6 @@ func (e *cloudWatchExecutor) fetchConcurrentQueriesQuota(region string) (int, er
 		ServiceCode: aws.String("logs"),
 		QuotaCode:   aws.String("L-32C48FBB"),
 	})
-
 	if err != nil {
 		return defaultConcurrentQueries, err
 	}
