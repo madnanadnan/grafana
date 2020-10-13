@@ -75,6 +75,18 @@ func newExecutor() *cloudWatchExecutor {
 	}
 }
 
+const cloudWatchTSFormat = "2006-01-02 15:04:05.000"
+const defaultRegion = "default"
+
+// Constants also defined in datasource/cloudwatch/datasource.ts
+const logIdentifierInternal = "__log__grafana_internal__"
+const logStreamIdentifierInternal = "__logstream__grafana_internal__"
+
+var plog = log.New("tsdb.cloudwatch")
+var aliasFormat = regexp.MustCompile(`\{\{\s*(.+?)\s*\}\}`)
+
+const defaultConcurrentQueries = 4
+
 // cloudWatchExecutor executes CloudWatch requests.
 type cloudWatchExecutor struct {
 	*models.DataSource
@@ -84,101 +96,15 @@ type cloudWatchExecutor struct {
 	logsClientsByRegion map[string]cloudwatchlogsiface.CloudWatchLogsAPI
 	mtx                 sync.Mutex
 
-	queuesByRegion   map[string](chan bool)
-	queueLock        sync.Mutex
-	channelMu        sync.Mutex
-	responseChannels map[string]chan *tsdb.Response
+	queuesByRegion map[string](chan bool)
+	queueLock      sync.Mutex
 }
 
 func (e *cloudWatchExecutor) newSession(region string) (*session.Session, error) {
 	dsInfo := e.getDSInfo(region)
-
-	bldr := strings.Builder{}
-	for i, s := range []string{
-		dsInfo.AuthType.String(), dsInfo.AccessKey, dsInfo.Profile, dsInfo.AssumeRoleARN, region,
-	} {
-		if i != 0 {
-			bldr.WriteString(":")
-		}
-		bldr.WriteString(strings.ReplaceAll(s, ":", `\:`))
-	}
-	cacheKey := bldr.String()
-
-	sessCacheLock.RLock()
-	if env, ok := sessCache[cacheKey]; ok {
-		if env.expiration.After(time.Now().UTC()) {
-			sessCacheLock.RUnlock()
-			return env.session, nil
-		}
-	}
-	sessCacheLock.RUnlock()
-
-	cfgs := []*aws.Config{
-		{
-			CredentialsChainVerboseErrors: aws.Bool(true),
-		},
-	}
-
-	var regionCfg *aws.Config
-	if dsInfo.Region == defaultRegion {
-		plog.Warn("Region is set to \"default\", which is unsupported")
-		dsInfo.Region = ""
-	}
-	if dsInfo.Region != "" {
-		regionCfg = &aws.Config{Region: aws.String(dsInfo.Region)}
-		cfgs = append(cfgs, regionCfg)
-	}
-
-	switch dsInfo.AuthType {
-	case authTypeSharedCreds:
-		plog.Debug("Authenticating towards AWS with shared credentials", "profile", dsInfo.Profile,
-			"region", dsInfo.Region)
-		cfgs = append(cfgs, &aws.Config{
-			Credentials: credentials.NewSharedCredentials("", dsInfo.Profile),
-		})
-	case authTypeKeys:
-		plog.Debug("Authenticating towards AWS with an access key pair", "region", dsInfo.Region)
-		cfgs = append(cfgs, &aws.Config{
-			Credentials: credentials.NewStaticCredentials(dsInfo.AccessKey, dsInfo.SecretKey, ""),
-		})
-	case authTypeDefault:
-		plog.Debug("Authenticating towards AWS with default SDK method", "region", dsInfo.Region)
-	default:
-		panic(fmt.Sprintf("Unrecognized authType: %d", dsInfo.AuthType))
-	}
-	sess, err := newSession(cfgs...)
+	creds, err := getCredentials(dsInfo)
 	if err != nil {
 		return nil, err
-	}
-
-	duration := stscreds.DefaultDuration
-	expiration := time.Now().Add(duration)
-	if dsInfo.AssumeRoleARN != "" {
-		// We should assume a role in AWS
-		plog.Debug("Trying to assume role in AWS", "arn", dsInfo.AssumeRoleARN)
-
-		cfgs := []*aws.Config{
-			{
-				CredentialsChainVerboseErrors: aws.Bool(true),
-			},
-			{
-				Credentials: newSTSCredentials(sess, dsInfo.AssumeRoleARN, func(p *stscreds.AssumeRoleProvider) {
-					// Not sure if this is necessary, overlaps with p.Duration and is undocumented
-					p.Expiry.SetExpiration(expiration, 0)
-					p.Duration = duration
-					if dsInfo.ExternalID != "" {
-						p.ExternalID = aws.String(dsInfo.ExternalID)
-					}
-				}),
-			},
-		}
-		if regionCfg != nil {
-			cfgs = append(cfgs, regionCfg)
-		}
-		sess, err = newSession(cfgs...)
-		if err != nil {
-			return nil, err
-		}
 	}
 
 	plog.Debug("Successfully created AWS session")
