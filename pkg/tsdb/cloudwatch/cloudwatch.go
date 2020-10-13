@@ -75,17 +75,9 @@ func newExecutor() *cloudWatchExecutor {
 	}
 }
 
-const cloudWatchTSFormat = "2006-01-02 15:04:05.000"
-const defaultRegion = "default"
-
 // Constants also defined in datasource/cloudwatch/datasource.ts
 const logIdentifierInternal = "__log__grafana_internal__"
 const logStreamIdentifierInternal = "__logstream__grafana_internal__"
-
-var plog = log.New("tsdb.cloudwatch")
-var aliasFormat = regexp.MustCompile(`\{\{\s*(.+?)\s*\}\}`)
-
-const defaultConcurrentQueries = 4
 
 // cloudWatchExecutor executes CloudWatch requests.
 type cloudWatchExecutor struct {
