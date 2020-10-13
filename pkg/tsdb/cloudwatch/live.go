@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/aws/aws-sdk-go/service/cloudwatchlogs"
@@ -32,28 +31,23 @@ const (
 	initialPollInterval = 500 * time.Millisecond
 )
 
-var (
-	channelMu        = sync.Mutex{}
-	responseChannels = map[string]chan *tsdb.Response{}
-)
+func (e *cloudWatchExecutor) addResponseChannel(name string, channel chan *tsdb.Response) error {
+	e.channelMu.Lock()
+	defer e.channelMu.Unlock()
 
-func addResponseChannel(name string, channel chan *tsdb.Response) error {
-	channelMu.Lock()
-	defer channelMu.Unlock()
-
-	if _, ok := responseChannels[name]; ok {
+	if _, ok := e.responseChannels[name]; ok {
 		return fmt.Errorf("channel with name '%s' already exists", name)
 	}
 
-	responseChannels[name] = channel
+	e.responseChannels[name] = channel
 	return nil
 }
 
-func getResponseChannel(name string) (chan *tsdb.Response, error) {
-	channelMu.Lock()
-	defer channelMu.Unlock()
+func (e *cloudWatchExecutor) getResponseChannel(name string) (chan *tsdb.Response, error) {
+	e.channelMu.Lock()
+	defer e.channelMu.Unlock()
 
-	if responseChannel, ok := responseChannels[name]; ok {
+	if responseChannel, ok := e.responseChannels[name]; ok {
 		return responseChannel, nil
 	}
 
@@ -61,7 +55,6 @@ func getResponseChannel(name string) (chan *tsdb.Response, error) {
 }
 
 func deleteResponseChannel(name string) {
-	delete(responseChannels, name)
 }
 
 // GetHandlerForPath gets called on init.
@@ -96,7 +89,7 @@ func (g *LogQueryRunner) OnPublish(c *centrifuge.Client, e centrifuge.PublishEve
 
 func (g *LogQueryRunner) publishResults(channelName string) error {
 	defer func() {
-		deleteResponseChannel(channelName)
+		delete(e.responseChannels, name)
 		delete(g.running, channelName)
 	}()
 
@@ -120,7 +113,7 @@ func (g *LogQueryRunner) publishResults(channelName string) error {
 func (e *cloudWatchExecutor) executeLiveLogQuery(ctx context.Context, queryContext *tsdb.TsdbQuery) (*tsdb.Response, error) {
 	responseChannelName := uuid.Must(uuid.NewV4()).String()
 	responseChannel := make(chan *tsdb.Response)
-	addResponseChannel("ds/CloudWatch/"+responseChannelName, responseChannel)
+	e.addResponseChannel("ds/CloudWatch/"+responseChannelName, responseChannel)
 	requestContext, _ := context.WithTimeout(context.Background(), 15*time.Minute)
 	go e.sendQueriesToChannel(requestContext, queryContext, responseChannel)
 
