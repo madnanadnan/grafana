@@ -10,6 +10,12 @@
   transition-duration: 350ms;
   transition-timing-function: ease-in-out;
   transition-property: box-shadow, border-bottom;
+  background: rgb(40, 59, 98);
+  border-color: white;
+  color: white;
+  .navbar-page-btn {
+    color: white !important;
+  }
 
   @include media-breakpoint-up(md) {
     padding-left: $dashboard-padding;
