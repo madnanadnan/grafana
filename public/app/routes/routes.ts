@@ -157,16 +157,7 @@ export function setupAngularRoutes($routeProvider: route.IRouteProvider, $locati
           ),
       },
     })
-    .when('/datasources/new', {
-      template: '<react-container />',
-      reloadOnSearch: false,
-      resolve: {
-        component: () =>
-          SafeDynamicImport(
-            import(/* webpackChunkName: "NewDataSourcePage"*/ '../features/datasources/NewDataSourcePage')
-          ),
-      },
-    })
+
     .when('/dashboards', {
       template: '<react-container />',
       reloadOnSearch: false,
