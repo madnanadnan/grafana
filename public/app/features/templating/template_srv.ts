@@ -147,6 +147,17 @@ export class TemplateSrv implements BaseTemplateSrv {
     return formatItem.formatter(options, variable);
   }
 
+  CustomTemplateURLFormatter(value: any, variable: any) {
+    value = _.map(value, (val: any, index: number) => {
+      if (index !== 0) {
+        return 'var-' + variable + '=' + val;
+      } else {
+        return val;
+      }
+    });
+    return value.join('&');
+  }
+
   setGrafanaVariable(name: string, value: any) {
     this.grafanaVariables[name] = value;
   }

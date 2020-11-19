@@ -1,12 +1,10 @@
 import 'symbol-observable';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-
 import 'whatwg-fetch'; // fetch polyfill needed for PhantomJs rendering
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'; // fetch polyfill needed for PhantomJs rendering
 // @ts-ignore
 import ttiPolyfill from 'tti-polyfill';
-
 import 'file-saver';
 import 'lodash';
 import 'jquery';
@@ -17,15 +15,14 @@ import 'angular-native-dragdrop';
 import 'angular-bindonce';
 import 'react';
 import 'react-dom';
-
 import 'vendor/bootstrap/bootstrap';
 import 'vendor/angular-other/angular-strap';
-
 import $ from 'jquery';
 import angular from 'angular';
 import config from 'app/core/config';
 // @ts-ignore ignoring this for now, otherwise we would have to extend _ interface with move
 import _ from 'lodash';
+
 import {
   AppEvents,
   setLocale,
@@ -51,6 +48,7 @@ import { getStandardFieldConfigs, getStandardOptionEditors, getScrollbarWidth } 
 import { getDefaultVariableAdapters, variableAdapters } from './features/variables/adapters';
 import { initDevFeatures } from './dev';
 import { getStandardTransformers } from 'app/core/utils/standardTransformers';
+//import { from } from 'rxjs';
 
 // add move to lodash for backward compatabiltiy
 // @ts-ignore

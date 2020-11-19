@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { css, cx } from 'emotion';
 import { useTheme } from '@grafana/ui';
+import Particles from 'react-particles-js';
 
 export interface BrandComponentProps {
   className?: string;
@@ -8,23 +9,106 @@ export interface BrandComponentProps {
 }
 
 const LoginLogo: FC<BrandComponentProps> = ({ className }) => {
-  return <img className={className} src="public/img/ics_large_logo.png" alt="Grafana" />;
+  return <img className={className} src="public/img/ics_large_logo.png" alt="ICS" />;
 };
 
 const LoginBackground: FC<BrandComponentProps> = ({ className, children }) => {
   //const theme = useTheme();
   const background = css`
-    background: rgb(0, 212, 255);
-    background: radial-gradient(
-      circle,
-      rgba(0, 212, 255, 1) 3%,
-      rgba(9, 9, 121, 1) 88%,
-      rgba(115, 179, 255, 1) 91%,
-      rgba(2, 0, 36, 1) 100%
-    );
+    background-color: #1f26c5 !important;
+    background-size: cover !important;
   `;
 
-  return <div className={cx(background, className)}>{children}</div>;
+  return (
+    <>
+      <div className={cx(background, className)}>
+        {children}
+        <Particles
+          params={{
+            fpsLimit: 60,
+            interactivity: {
+              events: {
+                onClick: {
+                  mode: 'push',
+                },
+                onHover: {
+                  mode: 'repulse',
+                },
+              },
+              modes: {
+                bubble: {
+                  distance: 400,
+                  duration: 2,
+                  opacity: 0.8,
+                  size: 40,
+                },
+                grab: {
+                  distance: 400,
+                },
+              },
+            },
+            particles: {
+              color: {
+                value: '#ffffff',
+              },
+              links: {
+                color: {
+                  value: '#ffffff',
+                },
+                distance: 150,
+                enable: true,
+                warp: true,
+              },
+              move: {
+                attract: {
+                  rotate: {
+                    x: 600,
+                    y: 1200,
+                  },
+                },
+                enable: true,
+                speed: 6,
+                warp: true,
+              },
+              number: {
+                density: {
+                  enable: true,
+                },
+                value: 80,
+              },
+              opacity: {
+                value: 0.5,
+                animation: {
+                  minimumValue: 0.1,
+                  speed: 3,
+                },
+              },
+              size: {
+                random: {
+                  enable: true,
+                  minimumValue: 5,
+                },
+                animation: {
+                  minimumValue: 0.1,
+                  speed: 30,
+                },
+              },
+              stroke: {
+                color: {
+                  value: '#000000',
+                  animation: {
+                    enable: true,
+                    speed: 3,
+                    sync: true,
+                  },
+                },
+              },
+            },
+          }}
+        />
+      </div>
+    </>
+  );
 };
 
 const MenuLogo: FC<BrandComponentProps> = ({ className }) => {
@@ -45,7 +129,7 @@ export class Branding {
   static MenuLogo = MenuLogo;
   static LoginBoxBackground = LoginBoxBackground;
   static AppTitle = 'Metrics Manager';
-  static LoginTitle = 'Welcome to Metrics Manager';
+  static LoginTitle = 'Metrics Manager';
   static GetLoginSubTitle = () => {
     const slogans = ['The Intrepid Way', 'Better Together', 'Simplifying Data'];
     const count = slogans.length;

@@ -1,3 +1,18 @@
+/* @mixin gradientBorder($leftColor,$rightColor,$borderWidth)
+  {
+     -webkit-appearance:none;
+    border:none;
+    background-image:linear-gradient(to right,$leftColor,$rightColor),linear-gradient(to right,$leftColor,$rightColor);
+    outline:none;
+    border-left:$borderWidth solid $leftColor;
+    border-right:$borderWidth solid $rightColor;
+    background-repeat:no-repeat;
+    background-size:100% $borderWidth;
+    background-position: 0 0, 0 100%;
+    background:linear-gradient(to right,  #ffffff 30% ,#283b62 55%);
+  }
+*/
+
 .navbar {
   position: relative;
   z-index: $zindex-navbar-fixed;
@@ -10,11 +25,13 @@
   transition-duration: 350ms;
   transition-timing-function: ease-in-out;
   transition-property: box-shadow, border-bottom;
-  background: rgb(40, 59, 98);
-  border-color: white;
+  background: linear-gradient(to right, #ffffff 30%, #283b62 55%);
+  box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.4);
+  //@include gradientBorder(#283b62, #ffffff , 5px );
+
   color: white;
   .navbar-page-btn {
-    color: white !important;
+    color: #283b62 !important;
   }
 
   @include media-breakpoint-up(md) {

@@ -14,6 +14,7 @@ export const commonColorsPalette = {
   gray15: '#202226',
   gray10: '#141619',
   gray05: '#0b0c0e',
+  intrepidBlue: '#283b62',
 
   // New blues palette used by next-gen form elements
   blue95: '#5794f2', // blue95

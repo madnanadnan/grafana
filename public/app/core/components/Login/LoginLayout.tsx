@@ -90,7 +90,7 @@ export const getLoginStyles = (theme: GrafanaTheme) => {
       display: flex;
       align-items: stretch;
       flex-direction: column;
-      position: relative;
+      position: absolute;
       justify-content: center;
       z-index: 1;
       min-height: 320px;

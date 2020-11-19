@@ -1,5 +1,15 @@
 $mobile-menu-breakpoint: md;
 
+.sidemenu__logo {
+  border-radius: 8%;
+  -webkit-transition: -webkit-transform 0.8s ease-in-out;
+  transition: transform 0.8s ease-in-out;
+}
+.sidemenu__logo:hover {
+  -webkit-transform: rotate(360deg);
+  transform: rotate(360deg);
+}
+
 .sidemenu {
   position: fixed;
   display: flex;

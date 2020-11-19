@@ -93,8 +93,8 @@ $text-blue: ${theme.colors.textBlue};
 $text-shadow-faint: none;
 
 // gradients
-$brand-gradient-horizontal: linear-gradient(to right, #f05a28 30%, #fbca0a 99%);
-$brand-gradient-vertical: linear-gradient(#f05a28 30%, #fbca0a 99%);
+$brand-gradient-horizontal: linear-gradient(to right, #ffffff 30%, #283b62 99%);
+$brand-gradient-vertical: linear-gradient(#ffffff 30%, #283b62 99%);
 
 // Links
 // -------------------------
@@ -239,10 +239,10 @@ $navbar-button-border: $gray-4;
 
 // Sidemenu
 // -------------------------
-$side-menu-bg: ${theme.palette.gray15};
+$side-menu-bg: linear-gradient(#ffffff 30% , ${theme.palette.brandPrimary} 55%) ;
 $side-menu-border: 1px solid ${theme.palette.gray25};
 $side-menu-bg-mobile: rgba(0, 0, 0, 0); //$gray-6;
-$side-menu-item-hover-bg: ${theme.palette.gray25};
+$side-menu-item-hover-bg: rgba(40,59,98, 0.9);
 $side-menu-shadow: 5px 0px 10px -5px $gray-1;
 $side-menu-link-color: $gray-4;
 $side-menu-icon-color: ${theme.palette.gray70};

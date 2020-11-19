@@ -1,7 +1,6 @@
 // Libraries
 import React, { FC } from 'react';
 import { css } from 'emotion';
-
 // Components
 import { UserSignup } from './UserSignup';
 import { LoginServiceButtons } from './LoginServiceButtons';
@@ -20,6 +19,7 @@ const forgottenPasswordStyles = css`
 
 export const LoginPage: FC = () => {
   document.title = Branding.AppTitle;
+
   return (
     <LoginLayout>
       <LoginCtrl>

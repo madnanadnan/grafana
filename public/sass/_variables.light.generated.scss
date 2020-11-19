@@ -58,19 +58,19 @@ $white: #ffffff;
 $blue: #33a2e5;
 $red: $red-base;
 $yellow: #ff851b;
-$orange: #ff7941;
+$orange: #283b62;
 $purple: #9954bb;
 $variable: #33a2e5;
 
-$brand-primary: #ff7941;
+$brand-primary: #283b62;
 $brand-success: #3eb15b;
-$brand-warning: #ff7941;
+$brand-warning: #283b62;
 $brand-danger: #e02f44;
 
 $query-red: #e02f44;
 $query-green: #3eb15b;
 $query-purple: #9954bb;
-$query-orange: #ff7941;
+$query-orange: #283b62;
 
 // Status colors
 // -------------------------
@@ -96,7 +96,7 @@ $text-shadow-faint: none;
 
 // gradients
 $brand-gradient-horizontal: linear-gradient(to right, #ffffff 30%, #283b62 99%);
-$brand-gradient-vertical: linear-gradient(#283b62, #ffffff 99%);
+$brand-gradient-vertical: linear-gradient(#ffffff 30%, #283b62 99%);
 
 // Links
 // -------------------------
@@ -241,10 +241,10 @@ $navbar-button-border: $gray-4;
 
 // Sidemenu
 // -------------------------
-$side-menu-bg: #283b62;
+$side-menu-bg: linear-gradient(#ffffff 30%, #283b62 55%);
 $side-menu-border: 1px solid #2c3235;
 $side-menu-bg-mobile: rgba(0, 0, 0, 0); //$gray-6;
-$side-menu-item-hover-bg: #283b62;
+$side-menu-item-hover-bg: rgba(40, 59, 98, 0.9);
 $side-menu-shadow: 5px 0px 10px -5px $gray-1;
 $side-menu-link-color: $gray-4;
 $side-menu-icon-color: #9fa7b3;
